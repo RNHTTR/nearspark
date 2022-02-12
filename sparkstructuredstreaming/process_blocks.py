@@ -79,7 +79,8 @@ if __name__ == '__main__':
         .option("kafka.bootstrap.servers", "localhost:9092") \
         .option("subscribe", "test_process_blocks4") \
         .load() \
-        .select(from_json(col("value").cast("string"), schema).alias("block"))
+        .select(from_json(col("value").cast("string"), schema).alias("block")) \
+        .select(col("block.*"))
 
     query = df \
         .writeStream \
