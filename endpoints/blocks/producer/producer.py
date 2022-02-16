@@ -1,5 +1,4 @@
 import json
-import os
 from time import sleep
 
 import requests
@@ -33,7 +32,7 @@ def extract_block():
     hash = block['header']['hash']
     print(f'hash: {hash}')
 
-    producer.send('test_process_blocks4', block)
+    producer.send('process_blocks', block)
     sleep(3)
 
 if __name__ == '__main__':
