@@ -28,15 +28,14 @@ services:
   block-producer:
     container_name: block-producer
     tty: true
-    image: nearspark-produce-blocks
+    image: docker.io/itzrnhttr/nearspark-producers
     depends_on:
       - kafka
 
   spark:
     container_name: block-master
     tty: true
-    # image: docker.io/bitnami/spark:3-debian-10
-    image: nearspark-process-blocks
+    image: docker.io/itzrnhttr/nearspark-processors
     environment:
       - SPARK_MODE=master
       - SPARK_RPC_AUTHENTICATION_ENABLED=no
@@ -50,9 +49,8 @@ services:
       - ./spark/jars:/opt/bitnami/spark/.ivy2 
 
   spark-worker-1:
-    # image: docker.io/bitnami/spark:3-debian-10
     tty: true
-    image: nearspark-process-blocks
+    image: docker.io/itzrnhttr/nearspark-processors
     environment:
       - SPARK_MODE=worker
       - SPARK_MASTER_URL=spark://spark:7077
