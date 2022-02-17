@@ -76,8 +76,8 @@ if __name__ == '__main__':
     df = spark \
         .readStream \
         .format("kafka") \
-        .option("kafka.bootstrap.servers", "localhost:9092") \
-        .option("subscribe", "test_process_blocks4") \
+        .option("kafka.bootstrap.servers", "kafka:29092") \
+        .option("subscribe", "process_blocks") \
         .load() \
         .select(from_json(col("value").cast("string"), schema).alias("block")) \
         .select(col("block.*"))
