@@ -21,6 +21,6 @@ docker exec -it nearspark_kafka_1 kafka-topics.sh --create --zookeeper zookeeper
 docker exec -it nearspark_spark-worker-1_1 spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.2.1 process_blocks.py
 
 # Start pulling NEAR data
-docker exec -it block-producer python producer.py
+docker exec -it block-producer python produce_blocks.py
 ```
 Voila!
