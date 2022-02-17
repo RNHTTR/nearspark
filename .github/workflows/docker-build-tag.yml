@@ -38,7 +38,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./src/endpoints/blocks/producer/Dockerfile
+          file: ./src/producers/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/nearspark-producers:latest
           
@@ -46,6 +46,6 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./src/endpoints/blocks/processor/Dockerfile
+          file: ./src/processors/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/nearspark-processors:latest
