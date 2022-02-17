@@ -47,5 +47,3 @@ jobs:
           file: ./src/endpoints/blocks/processor/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/nearspark-processors:latest
-
-
