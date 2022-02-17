@@ -1,4 +1,4 @@
-# CMD spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.2.1 process_blocks.py
+# Extended from [Bitnami Spark](https://github.com/bitnami/bitnami-docker-spark/blob/745a034c7d0d1af2ae5444abb57450c91b57f67a/3/debian-10/Dockerfile)
 
 FROM docker.io/bitnami/minideb:buster
 LABEL maintainer "Bitnami <containers@bitnami.com>"
@@ -11,7 +11,7 @@ ENV HOME="/" \
 
 ARG JAVA_EXTRA_SECURITY_DIR="/bitnami/java/extra-security"
 
-COPY prebuildfs /
+COPY src/bitmani/prebuildfs /
 # Install required system packages and dependencies
 RUN install_packages acl ca-certificates curl gzip libbz2-1.0 libc6 libffi6 libgcc1 liblzma5 libncursesw6 libreadline7 libsqlite3-0 libssl1.1 libstdc++6 libtinfo6 procps tar zlib1g
 RUN . /opt/bitnami/scripts/libcomponent.sh && component_unpack "python" "3.8.12-31" --checksum 48db897c12810ff5f17a323e9b4a0cc2812e673d66f94feb9d90e3abb28e664b
@@ -22,7 +22,7 @@ RUN apt-get update && apt-get upgrade -y && \
     rm -r /var/lib/apt/lists /var/cache/apt/archives
 RUN chmod g+rwX /opt/bitnami
 
-COPY rootfs /
+COPY src/bitmani/rootfs /
 RUN /opt/bitnami/scripts/spark/postunpack.sh
 RUN /opt/bitnami/scripts/java/postunpack.sh
 ENV BITNAMI_APP_NAME="spark" \
@@ -37,7 +37,7 @@ ENV BITNAMI_APP_NAME="spark" \
 
 ######################
 # Added for nearspark
-COPY process_blocks.py /opt/bitnami/spark/process_blocks.py
+COPY src/endpoints/blocks/processor/process_blocks.py /opt/bitnami/spark/process_blocks.py
 RUN pip install pyspark
 ######################
 
