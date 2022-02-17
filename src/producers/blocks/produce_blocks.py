@@ -1,5 +1,11 @@
+"""
+Fetches NEAR block data from NEAR RPC Endpoint and writes to Kafka topic
+for consumption
+
+TODO:
+    - Parameterize environment URL (testnet vs mainnet)
+"""
 import json
-import os
 from time import sleep
 
 import requests
@@ -20,20 +26,19 @@ def json_serializer(data):
     return json.dumps(data).encode("utf-8")
 
 producer = KafkaProducer(
-    bootstrap_servers=["localhost:9092"], value_serializer=json_serializer
+    bootstrap_servers=["kafka:29092"], value_serializer=json_serializer
 )
-
 
 def extract_block():
     """
-    TODO
+    Fetches block data from NEAR RPC Endpoint and writes to Kafka topic
     """
     response = requests.request("POST", URL, headers=HEADERS, data=json.dumps(DATA))
     block = response.json()['result']
     hash = block['header']['hash']
     print(f'hash: {hash}')
 
-    producer.send('test_process_blocks4', block)
+    producer.send('process_blocks', block)
     sleep(3)
 
 if __name__ == '__main__':

@@ -3,17 +3,24 @@ Playing around with streaming [NEAR rpc data](https://docs.near.org/docs/api/rpc
 
 ## Getting Started
 ### Pre-requisites
-1. You'll need an HDFS-compatible file system. HDFS, S3, GCS, etc. Check out [this guide](https://towardsdatascience.com/installing-hadoop-on-a-mac-ec01c67b003c) to run HDFS locally on a Mac.
-2. Create the necessary hdfs folders: `hadoop fs -mkdir /data/blocks/processed`
-3. Download and install [Apache Kafka](https://kafka.apache.org/quickstart)
-    1. Instead of naming the topic "quickstart-events" given in the example, name the topic "process_blocks"
+1. You'll need to have [Docker](https://docker.com) installed.
+2. Clone nearspark: `git clone git@github.com:RNHTTR/nearspark.git`
 
 ### Run nearspark
-1. If you haven't started Zookeeper & Kafka from the pre-requisites, do so now.
-2. In a new terminal window, clone this repository with `git clone git@github.com:RNHTTR/nearspark.git` (assuming you're using SSH)
-3. Navigate to the project root directory and install the required dependences `cd nearspark && pip install -r requirements.txt`
-4. Navigate to the structured streaming directory with `cd sparkstructuredstreaming`
-4. Start reading NEAR RPC data and writing it to the Kafka topic by running `python extract_blocks.py`
-5. In another new terminal window, start processing the data with the spark job with `spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.2.1 process_blocks.py`
+```bash
+# If you haven't already, navigate to the nearspark directory
+cd nearspark
 
+# Fire up the necessary components
+docker-compose up
+
+# Create a topic for processing blocks
+docker exec -it nearspark_kafka_1 kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 3 --topic process_blocks
+
+# Start the stream reader
+docker exec -it nearspark_spark-worker-1_1 spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.2.1 process_blocks.py
+
+# Start pulling NEAR data
+docker exec -it block-producer python producer.py
+```
 Voila!
