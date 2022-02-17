@@ -154,5 +154,5 @@ cython_debug/
 # VS Code
 .vscode
 
-spark/
+/spark/
 .DS_Store
