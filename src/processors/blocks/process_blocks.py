@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import from_json, col
+from pyspark.sql.functions import col, explode, from_json
 from pyspark.sql.types import (
     ArrayType,
     BooleanType,
@@ -80,16 +80,19 @@ if __name__ == '__main__':
         .option("subscribe", "process_blocks") \
         .load() \
         .select(from_json(col("value").cast("string"), schema).alias("block")) \
-        .select(col("block.*"))
+        .select(
+            col("block.author").alias("author"),
+            explode(col("block.chunks")).alias("chunks"),
+            col("block.header").alias("header")
+        ) \
+        .distinct()
 
     query = df \
         .writeStream \
         .outputMode("append") \
-        .format("console") \
+        .format("parquet") \
+        .option("checkpointLocation", "/checkpoint/near/blocks") \
+        .option("path", "/staging/near/blocks") \
         .start()
 
     query.awaitTermination()
-    # df.write.parquet(
-    #         f'hdfs://localhost:9000/data/blocks/processed',
-    #         mode='append'
-    #     )

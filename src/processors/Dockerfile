@@ -39,6 +39,8 @@ ENV BITNAMI_APP_NAME="spark" \
 # Added for nearspark
 COPY src/processors/blocks/process_blocks.py /opt/bitnami/spark/process_blocks.py
 RUN pip install pyspark
+# RUN mkdir -p /staging/near/blocks/_spark_metadata
+# RUN mkdir -p /checkpoint/near/blocks
 ######################
 
 WORKDIR /opt/bitnami/spark

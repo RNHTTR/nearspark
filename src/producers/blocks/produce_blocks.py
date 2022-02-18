@@ -6,7 +6,6 @@ TODO:
     - Parameterize environment URL (testnet vs mainnet)
 """
 import json
-from time import sleep
 
 import requests
 from kafka import KafkaProducer
@@ -39,7 +38,6 @@ def extract_block():
     print(f'hash: {hash}')
 
     producer.send('process_blocks', block)
-    sleep(3)
 
 if __name__ == '__main__':
     while True:

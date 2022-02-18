@@ -36,6 +36,7 @@ services:
     container_name: block-master
     tty: true
     image: docker.io/itzrnhttr/nearspark-processors
+    user: root
     environment:
       - SPARK_MODE=master
       - SPARK_RPC_AUTHENTICATION_ENABLED=no
@@ -51,6 +52,7 @@ services:
   spark-worker-1:
     tty: true
     image: docker.io/itzrnhttr/nearspark-processors
+    user: root
     environment:
       - SPARK_MODE=worker
       - SPARK_MASTER_URL=spark://spark:7077
