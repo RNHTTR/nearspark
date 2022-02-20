@@ -28,14 +28,14 @@ services:
   block-producer:
     container_name: block-producer
     tty: true
-    image: docker.io/itzrnhttr/nearspark-producers
+    image: docker.io/itzrnhttr/nearspark-producers:latest
     depends_on:
       - kafka
 
   spark:
     container_name: block-master
     tty: true
-    image: docker.io/itzrnhttr/nearspark-processors
+    image: docker.io/itzrnhttr/nearspark-processors:latest
     user: root
     environment:
       - SPARK_MODE=master
@@ -51,7 +51,7 @@ services:
 
   spark-worker-1:
     tty: true
-    image: docker.io/itzrnhttr/nearspark-processors
+    image: docker.io/itzrnhttr/nearspark-processors:latest
     user: root
     environment:
       - SPARK_MODE=worker
