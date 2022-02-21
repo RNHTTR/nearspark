@@ -1,0 +1,8 @@
+{
+  "index.tsx -> ../components/codeEditor": {
+    "id": "index.tsx -> ../components/codeEditor",
+    "files": [
+      "static/chunks/components_codeEditor_tsx.js"
+    ]
+  }
+}
